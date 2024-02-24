@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="0dp"
+    android:layout_margin="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:id="@+id/top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                app:cardBackgroundColor="#001B30"
+                app:cardCornerRadius="4dp"
+                android:padding="6dp"
+                android:elevation="0dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="6dp">
+
+                <ImageView
+                    android:id="@+id/iv_thumbnail"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    tools:src="@tools:sample/avatars"/>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:textColor="#658390"
+                android:textStyle="bold"
+                tools:text="asdldjkadlakdjaldkjasd asdlakjdalksdjalkdjadlkajdalkkdjaldkjadlkajdalkdjaldkajdalkdj" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/title_session_booking"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="#d6d6d6"
+            android:textSize="14sp"
+            android:layout_below="@id/top_layout"/>
+
+        <TextView
+            android:id="@+id/tv_earning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Earnings: 1.75/ spoken minute"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="#8ADDDD"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_below="@id/tv_sub_title"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

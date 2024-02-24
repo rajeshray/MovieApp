@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TaskApp</string>
+    <string name="fb_login_bt_title">Continue with Facebook</string>
+    <string name="facebook_app_id">463238068892127</string>
+    <string name="fb_login_protocol_scheme">fb463238068892127</string>
+    <string name="facebook_client_token">a2d1bdb818af3afe17faff873209be5b</string>
+    <string name="title_search">Search</string>
+    <string name="title_main_toolbar">Project</string>
+    <string name="title_session_booking">Session Booking</string>
+    <string name="hint_et_search">Type here...</string>
+    <string name="title_no_data_found">No Data Found</string>
+</resources>
