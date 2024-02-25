@@ -4,7 +4,6 @@ import com.ceresdroidxapps.taskapp.BuildConfig
 import com.ceresdroidxapps.taskapp.data.network.retrofit.ApiHelper
 import com.ceresdroidxapps.taskapp.data.network.retrofit.ApiHelperImpl
 import com.ceresdroidxapps.taskapp.data.network.retrofit.ApiService
-import com.ceresdroidxapps.taskapp.data.repository.MainRepository
 import com.ceresdroidxapps.taskapp.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -31,7 +30,7 @@ object NetworkModule {
         OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .build()
-    }else{
+    } else {
         OkHttpClient
             .Builder()
             .build()
@@ -39,9 +38,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL:String): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(okHttpClient: OkHttpClient, url: String): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BASE_URL)
+        .baseUrl(url)
         .client(okHttpClient)
         .build()
 

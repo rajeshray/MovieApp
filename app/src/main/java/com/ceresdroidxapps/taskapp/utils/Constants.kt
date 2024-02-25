@@ -2,9 +2,12 @@ package com.ceresdroidxapps.taskapp.utils
 
 object Constants {
     const val SHARED_PREF_NAME = "task_app_pref"
-    const val DATABASE_NAME  = "task_app_db"
-    const val DATABASE_VERSION = 1
+    const val DATABASE_NAME = "task_app_db"
 
-    const val BASE_URL = " https://us-central1-frapp-prod.cloudfunctions.net"
-    const val GET_PROJECTS = "$BASE_URL/gcf-mock/projects"
+    const val BASE_URL = "https://api.themoviedb.org/3/"
+
+    const val TMDB_API_KEY = "df0e148aaef521f592f4be59aa3c62e9"
+
+    const val TMDB_IMAGE_URL = "https://image.tmdb.org/t/p/original/"
+
 }

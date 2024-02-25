@@ -1,40 +1,35 @@
 package com.ceresdroidxapps.taskapp.views
 
-import android.content.Intent
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ceresdroidxapps.taskapp.R
+import com.ceresdroidxapps.taskapp.adapters.MovieItemClickListener
+import com.ceresdroidxapps.taskapp.adapters.MovieListAdapter
 import com.ceresdroidxapps.taskapp.base.BaseActivity
-import com.ceresdroidxapps.taskapp.data.model.ProjectItemModel
+import com.ceresdroidxapps.taskapp.data.model.MovieItem
 import com.ceresdroidxapps.taskapp.data.network.Resource
 import com.ceresdroidxapps.taskapp.data.network.Status
 import com.ceresdroidxapps.taskapp.databinding.ActivityMainBinding
+import com.ceresdroidxapps.taskapp.utils.PagingScrollListener
 import com.ceresdroidxapps.taskapp.utils.hide
 import com.ceresdroidxapps.taskapp.utils.show
 import com.ceresdroidxapps.taskapp.viewmodels.MainViewModel
-import com.ceresdroidxapps.taskapp.adapters.ProjectItemClickListener
-import com.ceresdroidxapps.taskapp.adapters.ProjectListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate),
-    ProjectItemClickListener {
+    MovieItemClickListener {
 
-    private val mainViewModel: MainViewModel by viewModels()
-    private var listOfProjects = ArrayList<ProjectItemModel>()
+    private val viewModel: MainViewModel by viewModels()
+
+    private var isLoading = false
+    private var movieListAdapter: MovieListAdapter? = null
 
     override fun initUI() {
-        binding.searchLayoutContainer.searchContainer.setOnClickListener {
-            openSearchActivity()
-        }
-    }
-
-    private fun openSearchActivity() {
-        val intent = Intent(this, SearchActivity::class.java)
-        intent.putParcelableArrayListExtra(INTENT_DATA_PROJECT_LIST, listOfProjects)
-        startActivity(intent)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = "Movie list"
+        setUpAdapter()
     }
 
     override fun initListeners() {
@@ -42,51 +37,92 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     override fun initObservers() {
-        mainViewModel.listOfAllProjects.observe(this) {
-            if (it != null) {
-                 setUpView(it)
+        viewModel.apply {
+            movieListLiveData.observe(this@MainActivity) { list ->
+
+                if (!movieList.isNullOrEmpty()) {
+                    isLoading = false
+                    movieListAdapter?.removeLoadingView()
+                }
+
+                if (list != null) {
+                    setUpView(list)
+                }
             }
         }
     }
 
-    private fun setUpView(resource: Resource<List<ProjectItemModel>>) {
+    private fun setUpView(resource: Resource<List<MovieItem>>) {
         when (resource.status) {
             Status.ERROR -> {
                 binding.lottie.setAnimation(R.raw.bot_error)
                 binding.lottie.playAnimation()
-                binding.errorContainer.show()
                 binding.loader.hide()
-                binding.recyclerView.hide()
-                binding.searchLayoutContainer.searchContainer.hide()
+                binding.rv.hide()
             }
 
             Status.SUCCESS -> {
-                binding.errorContainer.hide()
                 binding.loader.hide()
-                binding.recyclerView.show()
-                binding.searchLayoutContainer.searchContainer.show()
-                setUpAdapter(resource.data!!)
+                binding.rv.show()
+                addDataToMovieList(resource.data)
             }
 
             Status.LOADING -> {
-                binding.errorContainer.hide()
                 binding.loader.show()
-                binding.recyclerView.hide()
-                binding.searchLayoutContainer.searchContainer.hide()
+                binding.rv.hide()
             }
         }
     }
 
-    private fun setUpAdapter(data: List<ProjectItemModel>) {
-        listOfProjects.addAll(data)
-        val adapter = ProjectListAdapter(this,
-        data,
-        this)
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+    private fun addDataToMovieList(data: List<MovieItem>?) {
+       if (!data.isNullOrEmpty()) {
+           movieListAdapter?.addAll(data)
+       }
     }
 
-    override fun onClickItem(item: ProjectItemModel) {
 
+    private fun setUpAdapter() {
+
+        movieListAdapter = MovieListAdapter(
+            this,
+            viewModel.movieList,
+            this
+        )
+
+        val layoutManager = LinearLayoutManager(this)
+
+
+        val scrollListener = object : PagingScrollListener(layoutManager) {
+
+            override fun isLoading(): Boolean {
+                return isLoading
+            }
+
+            override fun loadMoreItems(totalItems: Int) {
+
+                if (totalItems < viewModel.totalMovies) {
+                    isLoading = true
+                    movieListAdapter?.addLoadingView()
+                    viewModel.apply {
+                        currentPage++
+                        getAllMovies()
+                    }
+                }
+            }
+        }
+
+
+        binding.rv.apply {
+            this.adapter = movieListAdapter
+            this.layoutManager = layoutManager
+            addOnScrollListener(scrollListener)
+        }
+    }
+
+    override fun onClickItem(item: MovieItem?) {
+        item?.let {
+            val detailsActivityIntent = DetailsActivity.createIntent(this, it)
+            startActivity(detailsActivityIntent)
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.ceresdroidxapps.taskapp.data.repository
 
-import com.ceresdroidxapps.taskapp.data.model.ProjectItemModel
+import com.ceresdroidxapps.taskapp.data.model.MovieItem
+import com.ceresdroidxapps.taskapp.data.model.MoviePaginationItem
 import com.ceresdroidxapps.taskapp.data.network.retrofit.ApiHelper
 import com.ceresdroidxapps.taskapp.data.network.retrofit.ApiHelperImpl
 import retrofit2.Call
@@ -12,8 +13,14 @@ class MainRepository @Inject constructor(
     private val apiHelperImpl: ApiHelperImpl
 ): ApiHelper {
 
-    override fun getAllProjects(): Call<List<ProjectItemModel>> {
-        return apiHelperImpl.getAllProjects()
+
+    override fun getPopularMoviesList(
+        pageNumber: Int,
+        includeAdult: Boolean,
+        includeVideo: Boolean,
+        sortBy: String
+    ): Call<MoviePaginationItem> {
+        return apiHelperImpl.getPopularMoviesList(pageNumber = pageNumber)
     }
 
 }
