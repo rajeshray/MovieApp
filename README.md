@@ -10,7 +10,7 @@ To build and run this project, you will need Android Studio installed on your co
 
 1. **Clone the Repository**: 
    ```sh
-   git clone https://github.com/your-username/popular-movies-app.git
+   https://github.com/rajeshray/MovieApp.git
    ```
 
 2. **Open Project in Android Studio**:
@@ -34,5 +34,5 @@ To build and run this project, you will need Android Studio installed on your co
 ## Features
 
 - View a list of popular movies.
-- Tap on a movie to see more details including title, release date, rating, and synopsis.
+- Tap on a movie to see more details including title, poster and overview.
 
