@@ -31,6 +31,10 @@ To build and run this project, you will need Android Studio installed on your co
    - Rebuild the project by clicking on "Build" > "Rebuild Project" in Android Studio.
    - Run the app again by clicking on the "Run" button.
 
+6. **Screenshots**
+   - ![Home screen](https://github.com/rajeshray/MovieApp/assets/18261436/7ab1fc31-8500-4ae6-8623-1c2f77679298 "Home screen")
+   - ![Details screen](https://github.com/rajeshray/MovieApp/assets/18261436/769a39d8-60fb-45a5-8705-23f0d2794079)
+
 ## Features
 
 - View a list of popular movies.
